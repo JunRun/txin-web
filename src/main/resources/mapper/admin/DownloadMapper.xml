@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.txin.admin.mapper.DownloadMapper">
+
+	<insert id="insert" parameterType="download" useGeneratedKeys="true" keyProperty="id">
+		insert into `download` (
+			product_name,
+			types,
+			version,
+			file_name,
+			version_number,
+			accessory,
+			intro,
+			file_size,
+			create_name,
+			create_date,
+			update_name,
+			update_date
+		) values (
+			#{productName},
+			#{types},
+			#{version},
+			#{fileName},
+			#{versionNumber},
+			#{accessory},
+			#{intro},
+			#{fileSize},
+			#{createName},
+			#{createDate},
+			#{updateName},
+			#{updateDate}
+
+
+
+		)
+	</insert>
+
+	<delete id="deleteById">
+		delete from `download` where id=#{id}
+	</delete>
+
+	<select id="getById" resultType="download">
+		select
+			<include refid="selectSql"/>
+		from `download`
+		where id=#{id}
+	</select>
+
+	<select id="getAll" resultType="download">
+		select
+			<include refid="selectSql"/>
+		from `download`
+	</select>
+
+	<select id="findCountByQuery" parameterType="download" resultType="long">
+	select count(*) from `download`
+	<include refid="whereSql" />
+	</select>
+
+	<select id="findLimitByQuery" parameterType="download" resultType="download">
+		select
+		<include refid="selectSql"/>
+		from `download`
+		<include refid="whereSql" />
+		order by intro desc
+		<if test="offset != null">
+			limit ${offset},${limit}
+		</if>
+	</select>
+	<update id="update" parameterType="download">
+		update download set
+		<if test="productName!=null and productName !=''">
+			product_name=#{productName},
+		</if>
+		<if test="types!=null and types!=''">
+			types=#{types},
+		</if>
+		<if test="version!=null and version!=''">
+			version=#{version},
+		</if>
+		<if test="fileName!=null and fileName!=''">
+			file_name=#{fileName},
+		</if>
+		<if test="versionNumber!=null and versionNumber!=''">
+			version_number=#{versionNumber},
+		</if>
+		<if test="accessory!=null and accessory!=''">
+			accessory=#{accessory},
+		</if>
+		<if test="intro!=null and intro!=''">
+			intro=#{intro},
+		</if>
+		<if test="fileSize!=null and fileSize!=''">
+			file_size=#{fileSize},
+		</if>
+			update_name=#{updateName}
+		where id=#{id}
+	</update>
+
+	<sql id="selectSql">
+		id,
+		product_name,
+		types,
+		version,
+		file_name,
+		version_number,
+		accessory,
+		intro,
+		file_size,
+		create_name,
+		create_date,
+		update_name,
+		update_date
+	</sql>
+
+	<sql id="whereSql">
+		<where>
+			<if test="productName!=null and productName!=''">
+				and product_name like concat("%",#{productName},"%")
+			</if>
+			<if test="types!=null and types!=''">
+				and types like concat ("%",#{types},"%")
+			</if>
+			<if test="version!=null and version!=''">
+				and version like concat("%",#{version},"%")
+			</if>
+			<if test="fileName!=null and fileName!=''">
+				and file_name like concat("%",#{fileName},"%")
+			</if>
+			<if test="versionNumber!=null and versionNumber!=''">
+				and version_number like concat("%",#{versionNumber},"%")
+			</if>
+			<if test="accessory!=null and accessory!=''">
+				and accessory like concat("%",#{accessory},"%")
+			</if>
+			<if test="intro!=null and intro!=''">
+				and intro like concat("%",#{intro},"%")
+			</if>
+			<if test="fileSize!=null and fileSize!=''">
+				and file_size like concat("%",#{fileSize},"%")
+			</if>
+
+		</where>
+	</sql>
+
+</mapper>

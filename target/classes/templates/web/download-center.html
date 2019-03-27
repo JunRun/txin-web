@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>勤诚官网-下载中心</title>
+    <!-- Bootstrap -->
+    <link th:href="@{/css/web/bootstrap.min.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/web/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/web/bootstrapt.reset.css}">
+    <link rel="stylesheet" th:href="@{/css/web/swiper.min.css}">
+    <link rel="stylesheet" th:href="@{/css/web/swiper.reset.css}">
+    <link rel="stylesheet" th:href="@{/css/web/header.css}">
+    <link rel="stylesheet" th:href="@{/css/web/footer.css}">
+    <link th:href="@{/css/web/style.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{css/web/jquery.pagination.css}" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.0/css/font-awesome.min.css">
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<header th:replace="web/common/header::header"></header>
+<div class="container">
+    <div class="public-crumbs">
+        <div class="public-crumbs-title">
+            <p>下载中心</p>
+        </div>
+        <div class="public-crumbs-place">
+            <p>当前位置：<a th:href="@{/index}">网站首页</a>>下载中心</p>
+        </div>
+    </div>
+    <div class="download">
+        <div class="form-boxform-box">
+            <p class="form-boxform-title">您可以在下方输入框中搜索查找或选择查找您要下载相应产品的驱动程序！</p>
+            <p class="form-boxform-title" style="margin: 20px 0;">搜索查找：</p>
+            <div class="form">
+                <input type="text" class="search" name="productName" id="productName"  placeholder="-产品型号搜索-">
+                <button type="text" class="btn btn-default" onclick="seke()">搜索</button>
+            </div>
+            <p class="form-boxform-title">或产品型号选择：</p>
+            <div class="form">
+                <div class="selectBox" id="product-type" >
+                    <div  class="inputCase">
+                        <input id="types" class="imitationSelect" maxlength="0" placeholder="-请选择产品类型-" type="text"/>
+                        <i class="fa fa-caret-down"></i>
+                    </div>
+                    <ul  li="" class="selectUl">
+                        <li th:oliName="${types.value}" th:each="types:${typesList}" th:text="${types.value}"></li>
+                    </ul>
+                </div>
+                <div class="selectBox" id="product-model">
+                    <div class="inputCase">
+                        <input id="version" class="imitationSelect" maxlength="18" placeholder="-请选择产品型号-" type="text"/>
+                        <i class="fa fa-caret-down"></i>
+                    </div>
+                    <ul li="" class="selectUl">
+                        <li th:oliName="${version.value}" th:each="version:${versionList}" th:text="${version.value}"></li>
+                    </ul>
+                </div>
+                <button type="text" onclick="seke11()" class="btn btn-primary">立即查找</button>
+            </div>
+        </div>
+        <div class="download-search-result">
+            <strong class="download-search-result-title">查找结果</strong>
+            <div class="download-search-result-item" th:each="download,iterStat : ${downloadList}">
+                <div class="download-header" >
+                    <div class="download-title" th:text="${download.productName}"></div>
+                    <div class="download-label" th:text="${download.versionNumber}"></div>
+                </div>
+                <div class="download-detail" th:text="${download.intro}">
+
+                </div>
+                <div class="download-footer">
+                    <div class="download-footer-con">
+                        <div class="download-footer-date" th:text="${download.updateDate}"> </div>
+                        <div class="download-footer-size" th:text="${download.fileSize}"></div>
+                    </div>
+                    <a th:href="'/upload/ ' + ${download.accessory}" class="download-footer-con download-footer-btn btn">下载</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<footer th:replace="web/common/footer::footer" ></footer>
+<script th:src="@{/js/web/jquery.min.js}"></script>
+<script th:src="@{js/web/bootstrap.js}"></script>
+<script th:src="@{/js/web/public.js}"></script>
+<script>
+    function select(This, Li, Fa, SelectUl) {
+        This.parent().next().toggle();//ul弹窗展开
+        var fa = This.parent().find('.fa')
+        if(fa.hasClass("fa-caret-down")){
+            fa.removeClass("fa-caret-down").addClass("fa-caret-up")//点击input选择适合，小图标动态切换
+        }else{
+            fa.addClass("fa-caret-down").removeClass("fa-caret-up")//点击input选择适合，小图标动态切换
+        }
+        if (event.stopPropagation) {
+            // 针对 Mozilla 和 Opera
+            event.stopPropagation();
+        }else if (window.event) {
+            // 针对 IE
+            window.event.cancelBubble = true;
+        }
+        Li.click(function(event){
+            event=event||window.event;
+            $(this).addClass("actived_li").siblings().removeClass("actived_li");//点击当前的添加。actived_li这个类；其他的移除这个类名
+            var oliName = $(this).attr("oliName");//定义一个name属性，获取点击的元素属性赋值到当前，方便动态化传值
+            var oliId = $(this).attr("oliId");//定义一个id属性，获取点击的元素属性赋值到当前，方便数据交互传值
+            $(this).parent().prev().children().val(oliName); //把当前点击的name赋值到显示的input的val里面
+            $(this).parent().prev().children().attr("oliName",oliName);//把当前点击的oliName赋值到显示的input的oliName里面
+            $(this).parent().prev().children().attr("oliId",oliId);//把当前点击的oliId赋值到显示的input的oliId里面
+        });
+
+        //点击任意地方隐藏下拉
+        $(document).click(function(event){
+            event=event||window.event;
+            Fa.removeClass("fa-caret-up").addClass("fa-caret-down")//当点隐藏ul弹窗时候，把小图标恢复原状
+            SelectUl.hide();//当点击空白处，隐藏ul弹窗
+        });
+    }
+
+    $("#product-type .imitationSelect").on("click",function(){
+        select($(this), $("#product-type .selectUl li"), $("#product-type .inputCase .fa"), $("#product-type .selectUl"))
+    })
+
+    $("#product-model .imitationSelect").on("click",function(){
+        select($(this), $("#product-model .selectUl li"), $("#product-model .inputCase .fa"), $("#product-model .selectUl"))
+    })
+</script>
+
+<script type="text/javascript">
+    function seke() {
+        var  productName=$("#productName").val();
+        if (productName!=null && productName!="") {
+            window.location.href="/download?productName=" + productName;
+        }
+    }
+</script>
+<script type="text/javascript">
+    function seke11() {
+        var  types=$("#types").val();
+        var  version=$("#version").val();
+
+        if (types!=null && types!="" || version!=null && version!="") {
+            window.location.href="/download?types=" + types+"&version="+version
+        }
+    }
+</script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.txin.admin.mapper.SystemParameterTypeMapper">
+
+    <insert id="insert" parameterType="systemParameterTypeEntity" useGeneratedKeys="true" keyProperty="id">
+    insert into sys_system_parameter_type(
+    id,
+    `name`,
+    description,
+    seq,
+    create_name
+    )values (
+    #{id},
+    #{name},
+    #{description},
+    #{seq},
+    #{createName}
+    )
+    </insert>
+    <update id="update" parameterType="systemParameterTypeEntity">
+        update sys_system_parameter_type set
+        <if test="name!=null and name !=''">
+             `name`=#{name},
+        </if>
+        <if test="description!=null and description!=''">
+           description=#{description},
+        </if>
+        <if test="seq!=null and seq!=''">
+            seq=#{seq},
+        </if>
+        update_name=#{updateName}
+        where id=#{id}
+    </update>
+    <!-- 根据条件查询 -->
+    <select id="findCountByQuery" resultType="long" parameterType="SystemParameterTypeEntity">
+        SELECT count(*) FROM sys_system_parameter_type
+        <include refid="whereSql" />
+    </select>
+
+    <select id="findLimitByQuery" parameterType="SystemParameterTypeEntity"  resultType="systemParameterTypeEntity">
+        select
+        <include refid="selectSql"/>
+        from sys_system_parameter_type
+        <include refid="whereSql" />
+        order by create_date desc
+        <if test="offset!=null ">
+        limit ${offset},${limit}
+        </if>
+    </select>
+
+    <select id="getById" parameterType="java.lang.String" resultType="systemParameterTypeEntity">
+        select
+        <include refid="selectSql"/>
+        from
+        sys_system_parameter_type
+        where
+        id=#{id}
+    </select>
+
+
+
+    <select id="getAll" resultType="systemParameterTypeEntity">
+        select
+        <include refid="selectSql"/>
+        from
+        sys_system_parameter_type
+    </select>
+
+    <sql id="selectSql">
+	  id,
+	  `name`,
+	  description,
+	  seq,
+	  create_name,
+	  create_date,
+	  update_name,
+	  update_date
+	</sql>
+    <delete id="deleteById" parameterType="String">
+        delete FROM sys_system_parameter_type where id=#{id}
+    </delete>
+    <sql id="whereSql">
+        <where>
+            <if test="id!=null and id!=''">
+                and id=#{id}
+            </if>
+            <if test="name!=null and name!=''">
+                and `name`=#{name}
+            </if>
+        </where>
+    </sql>
+</mapper>

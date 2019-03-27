@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.txin.admin.mapper.LeaveMapper">
+
+	<insert id="insert" parameterType="leave" useGeneratedKeys="true" keyProperty="id">
+		insert into `leave` (
+			name,
+			mobile,
+			qq,
+			email,
+			content
+		) values (
+			#{name},
+			#{mobile},
+			#{qq},
+			#{email},
+			#{content}
+		)
+	</insert>
+
+	<delete id="deleteById">
+		delete from `leave` where id=#{id}
+	</delete>
+
+	<select id="getById" resultType="leave">
+		select
+			<include refid="selectSql"/>
+		from `leave`
+		where id=#{id}
+	</select>
+
+	<select id="findCountByQuery" parameterType="leave" resultType="long">
+		select count(*) from `leave`
+		<include refid="whereSql" />
+	</select>
+
+	<select id="findLimitByQuery" parameterType="leave" resultType="leave">
+		select
+		<include refid="selectSql"/>
+		from `leave`
+		<include refid="whereSql" />
+		order by create_date desc
+		<if test="offset != null">
+			limit ${offset},${limit}
+		</if>
+	</select>
+
+	<sql id="selectSql">
+		id,
+		name,
+		mobile,
+		qq,
+		email,
+		content,
+		create_date
+	</sql>
+
+	<sql id="whereSql">
+		<where>
+			<if test="name != null and name != ''">
+				and name like "%${name}%"
+			</if>
+			<if test="mobile != null and mobile != ''">
+				and mobile like "%${mobile}%"
+			</if>
+			<if test="qq != null and qq != ''">
+				and qq like "%${qq}%"
+			</if>
+			<if test="email != null and email != ''">
+				and email = #{email}
+			</if>
+		</where>
+	</sql>
+</mapper>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.txin.admin.mapper.UserMapper">
+
+	<insert id="insert" parameterType="user" useGeneratedKeys="true" keyProperty="id">
+		insert into `user` (
+			username,
+			password,
+			realname,
+			mobile,
+			email
+		) values (
+			#{username},
+			#{password},
+			#{realname},
+			#{mobile},
+			#{email}
+		)
+	</insert>
+	<update id="update" parameterType="user">
+		update user set
+		<if test="username!=null and username!=''">
+			username=#{username},
+		</if>
+		<if test="password!=null and password!=''">
+			password=#{password},
+		</if>
+		<if test="realname!=null and realname!=''">
+			realname=#{realname},
+		</if>
+		<if test="mobile!=null and mobile!=''">
+			mobile=#{mobile},
+		</if>
+		<if test="email!=null and email!=''">
+			email=#{email},
+		</if>
+		update_name=#{updateName}
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from `user` where id=#{id}
+	</delete>
+
+	<select id="getById" resultType="user">
+		select
+			<include refid="selectSql"/>
+		from `user`
+		where id=#{id}
+	</select>
+
+
+	<select id="findByUsername" resultType="user">
+		select
+		username,password
+		from `user`
+		where username=#{username}
+	</select>
+
+
+	<select id="findCountByQuery" parameterType="user" resultType="long">
+		select count(*) from `user`
+		<include refid="whereSql" />
+	</select>
+
+	<select id="findLimitByQuery" parameterType="user" resultType="user">
+		select
+		<include refid="selectSql"/>
+		from `user`
+		<include refid="whereSql" />
+		order by create_date desc
+		<if test="offset != null">
+			limit ${offset},${limit}
+		</if>
+	</select>
+
+	<sql id="selectSql">
+		id,
+		username,
+		password,
+		realname,
+		mobile,
+		email
+
+	</sql>
+
+	<sql id="whereSql">
+		<where>
+			<if test="username != null and username != ''">
+				and username like "%${username}%"
+			</if>
+			<if test="password != null and password != ''">
+				and password like "%${password}%"
+			</if>
+			<if test="realname != null and realname != ''">
+				and realname like "%${realname}%"
+			</if>
+			<if test="mobile != null and mobile != ''">
+				and mobile like "%${mobile}%"
+			</if>
+			<if test="email != null and email != ''">
+				and email = #{email}
+			</if>
+		</where>
+	</sql>
+</mapper>

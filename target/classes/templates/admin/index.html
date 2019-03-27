@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="renderer" content="webkit"/>
+    <title>勤诚科技官网-后台管理</title>
+    <meta name="keywords" content="勤诚科技官网-后台管理"/>
+    <meta name="description" content="勤诚科技官网-后台管理"/>
+
+    <link rel="shortcut icon" th:href="@{/favicon.ico}" />
+    <link th:href="@{/css/admin/bootstrap.min.css?v=3.3.6}" rel="stylesheet"/>
+    <link th:href="@{/css/admin/font-awesome.min.css?v=4.4.0}" rel="stylesheet"/>
+    <link th:href="@{/css/admin/animate.css}" rel="stylesheet"/>
+    <link th:href="@{/css/admin/style.css?v=4.1.0}" rel="stylesheet"/>
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+    <div id="wrapper">
+        <!--左侧导航开始-->
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="nav-close"><i class="fa fa-times-circle"></i>
+            </div>
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element">
+                            <a data-toggle="dropdown" class="dropdown-toggle">
+                                <span class="clear">
+                                    <span class="block m-t-xs" style="font-size:20px;">
+                                        <i class="fa fa-area-chart"></i>
+                                        <strong class="font-bold">勤诚科技官网</strong>
+                                    </span>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="logo-element">勤诚科技官网</div>
+                    </li>
+                    <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                        <span class="ng-scope">首页</span>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" th:href="@{/admin/indexContext}">
+                            <i class="fa fa-home"></i>
+                            <span class="nav-label">主页</span>
+                        </a>
+                    </li>
+                    <li class="line dk"></li>
+                    <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                        <span class="ng-scope">网站模块</span>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa fa-newspaper-o"></i>
+                            <span class="nav-label">文章管理</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" th:href="@{/admin/article/listPage?types=COMPANY_NEWS}">公司新闻</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" th:href="@{/admin/article/listPage?types=INDUSTRY_NEWS}">行业新闻</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" th:href="@{/admin/article/listPage?types=SOLUTION}">解决方案</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa fa-bar-chart-o"></i>
+                            <span class="nav-label">网站管理</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" th:href="@{/admin/banner/listPage}">banner配置</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" th:href="@{/admin/leave/listPage}">购买留言</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" th:href="@{/admin/partner/listPage}">合作伙伴</a>
+                            </li>
+                            <!--<li>
+                                <a class="J_menuItem" href="graph_echarts.html">友情链接配置</a>
+                            </li>-->
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa fa-bar-chart-o"></i>
+                            <span class="nav-label">产品配置</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" th:href="@{/admin/product/listPage}">产品</a>
+                                <a class="J_menuItem" th:href="@{/admin/download/listPage}">产品下载中心</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa fa-newspaper-o"></i>
+                            <span class="nav-label">常见问题</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" th:href="@{/admin/article/listPage?types=AFTER_SALES_PROBLEM}">售后问题</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" th:href="@{/admin/article/listPage?types=USE_PROBLEM}">使用问题</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" th:href="@{/admin/article/listPage?types=BUY_PROBLEM}">购买问题</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="line dk"></li>
+                    <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                        <span class="ng-scope">系统模块</span>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa fa-bar-chart-o"></i>
+                            <span class="nav-label">系统管理</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" th:href="@{/admin/user/listPage}">用户管理</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" href="graph_echarts.html">角色管理</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" href="graph_echarts.html">资源管理</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" th:href="@{/admin/systemParameter/listPage}">系统参数配置</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" th:href="@{/admin/systemParameterType/listPage}">系统参数类型配置</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!--左侧导航结束-->
+        <!--右侧部分开始-->
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header"><a class="navbar-minimalize minimalize-styl-2 btn btn-info " href="#"><i class="fa fa-bars"></i> </a>
+                        <form role="search" class="navbar-form-custom" method="post" action="search_results.html">
+                            <div class="form-group">
+                                <input type="text" placeholder="请输入您需要查找的内容 …" class="form-control" name="top-search" id="top-search">
+                            </div>
+                        </form>
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                                <i class="fa fa-user"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-alerts">
+                                <li>
+                                    <div class="text-center link-block">
+                                        <a class="J_menuItem" href="notifications.html">
+                                            <strong>个人中心</strong>
+                                            <i class="fa fa-angle-right"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <div class="text-center link-block">
+                                        <a class="J_menuItem" th:href="@{/admin/loginOut}">
+                                            <strong>退出登录</strong>
+                                            <i class="fa fa-angle-right"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="divider"></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="row J_mainContent" id="content-main">
+                <iframe id="J_iframe" width="100%" height="100%" th:src="@{/admin/indexContext}" frameborder="0" data-id="index_v1.html" seamless></iframe>
+            </div>
+        </div>
+        <!--右侧部分结束-->
+    </div>
+
+    <!-- 全局js -->
+    <script th:src="@{/js/admin/jquery.min.js?v=2.1.4}"></script>
+    <script th:src="@{/js/admin/bootstrap.min.js?v=3.3.6}"></script>
+    <script th:src="@{/js/admin/metisMenu/jquery.metisMenu.js}"></script>
+    <script th:src="@{/js/admin/slimscroll/jquery.slimscroll.min.js}"></script>
+    <script th:src="@{/js/admin/layer/layer.js}"></script>
+
+    <!-- 自定义js -->
+    <script th:src="@{/js/admin/hAdmin.js?v=4.1.0}"></script>
+    <script type="text/javascript" th:src="@{/js/admin/index.js}"></script>
+
+    <!-- 第三方插件 -->
+    <script th:src="@{/js/admin/pace/pace.min.js}"></script>
+
+    <script th:src="@{/js/admin/ajax.js}"></script>
+</body>
+
+</html>

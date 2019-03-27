@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章列表</title>
+    <link rel="shortcut icon" th:href="@{/favicon.ico}">
+    <link th:href="@{/css/admin/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/css/admin/font-awesome.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/css/admin/bootstrap-table/bootstrap-table.min.css}" rel="stylesheet">
+    <link th:href="@{/css/admin/animate.css}" rel="stylesheet">
+    <link th:href="@{/css/admin/style.css?v=4.1.0}" rel="stylesheet">
+</head>
+<body>
+<div class="panel-body" style="padding-bottom:0px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">查询条件</div>
+        <div class="panel-body">
+            <form id="formSearch" class="form-horizontal">
+                <input type="hidden" id="types" th:value="${types}"/>
+                <div class="form-group">
+                    <label class="control-label col-sm-1" for="title">标题：</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="title">
+                    </div>
+                    <label class="control-label col-sm-1" for="source">来源：</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="source">
+                    </div>
+                    <label class="control-label col-sm-1" for="author">作者：</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="author">
+                    </div>
+                    <label class="control-label col-sm-1" for="content">内容：</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="content">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-4" style="text-align:left;">
+                        <button type="button" style="margin-left:50px" onclick="query();" class="btn btn-info"><i class="fa fa-search"></i>查询</button>
+                        <button type="button" style="margin-left:50px" onclick="reset();" class="btn"><i class="fa fa-remove"></i>重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="toolbar" class="btn-group">
+        <button id="btn_add" type="button" onclick="details(null)" class="btn btn-default">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+        </button>
+    </div>
+    <table id="dataTable"></table>
+</div>
+</body>
+<!-- 全局js -->
+<script th:src="@{/js/admin/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{/js/admin/bootstrap.min.js?v=3.3.6}"></script>
+<!-- 自定义js -->
+<script th:src="@{/js/admin/content.js?v=1.0.0}"></script>
+<!-- Bootstrap table -->
+<script th:src="@{/js/admin/bootstrap-table/bootstrap-table.min.js}"></script>
+<script th:src="@{/js/admin/bootstrap-table/bootstrap-table-mobile.min.js}"></script>
+<script th:src="@{/js/admin/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+<!-- Peity -->
+<script th:inline="javascript">
+$(function() {
+    //1.初始化Table
+    var oTable = new TableInit();
+    oTable.Init();
+
+    //2.初始化Button的点击事件
+    var oButtonInit = new ButtonInit();
+    oButtonInit.Init();
+});
+var TableInit = function () {
+    var oTableInit = new Object();
+    //初始化Table
+    oTableInit.Init = function () {
+        $('#dataTable').bootstrapTable({
+            url: '/admin/article/list',         //请求后台的URL（*）
+            method: 'get',                      //请求方式（*）
+            toolbar: '#toolbar',                //工具按钮用哪个容器
+            striped: true,                      //是否显示行间隔色
+            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+            pagination: true,                   //是否显示分页（*）
+            sortable: false,                     //是否启用排序
+            sortOrder: "desc",                   //排序方式
+            queryParams: oTableInit.queryParams,//传递参数（*）
+            sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+            pageNumber:1,                       //初始化加载第一页，默认第一页
+            pageSize: 10,                       //每页的记录行数（*）
+            pageList: [10, 20, 30, 50, 100],        //可供选择的每页的行数（*）
+            search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端
+            strictSearch: false,
+            showColumns: true,                  //是否显示所有的列
+            showRefresh: true,                  //是否显示刷新按钮
+            minimumCountColumns: 2,             //最少允许的列数
+            clickToSelect: true,                //是否启用点击选中行
+            //height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            uniqueId: "id",                     //每一行的唯一标识，一般为主键列
+            showToggle:true,                    //是否显示详细视图和列表视图的切换按钮
+            cardView: false,                    //是否显示详细视图
+            detailView: false,                   //是否显示父子表
+            columns: [{
+                checkbox: true
+            },{
+                field: 'image',
+                title: '图片',
+                width:"100",
+                formatter : function (value, row, index) {
+                    if(value != null && value != ''){
+                        return "<img style='height: 100px;max-width: 100px;' src='/upload/"+ value +"'/>";
+                    }
+                    return "";
+                }
+            },{
+                field: 'title',title: '标题',width:"200"
+            },{
+                field: 'source',title: '来源',width:"100"
+            },{
+                field: 'author',title: '作者',width:"100"
+            },{
+                field: 'seq',title: '序号',width:"50"
+            },{
+                field: 'info',title: '简介'
+            },{
+                field: 'operates',
+                title: '操作',
+                width:"120",
+                formatter : function (value, row, index) {
+                    var operates = "<button type='button' onclick='details("+ row.id +")' class='btn btn-xs btn-info'><i class='fa fa-file-text'></i>详情</button>&nbsp;";
+                    operates += "<button type='button' onclick='deleteById("+ row.id +")' class='btn btn-xs btn-danger'><i class='fa fa-file-text'></i>删除</button>&nbsp;";
+                    return operates;
+                }
+            } ]
+        });
+    };
+
+    //得到查询的参数
+    oTableInit.queryParams = function (params) {
+        var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+            limit: params.limit,   //页面大小
+            offset: params.offset,  //页码
+            order : params.order, //排序
+            sort : params.sort, //排序
+            title : $("#title").val(),
+            source : $("#source").val(),
+            author : $("#author").val(),
+            types : $("#types").val(),
+            content : $("#content").val()
+        };
+        return temp;
+    };
+    return oTableInit;
+};
+
+
+var ButtonInit = function () {
+    var oInit = new Object();
+    var postdata = {};
+    oInit.Init = function () {
+        //初始化页面上面的按钮事件
+    };
+    return oInit;
+};
+//查询
+function query(){
+    $('#dataTable').bootstrapTable('refresh');
+}
+//重置查询撒参数
+function reset(){
+    $("#title").val("");
+    $("#source").val("");
+    $("#author").val("");
+    $("#types").val("");
+    $("#content").val("");
+}
+//文章详情
+function details(id){
+    var url = "/admin/article/detailsPage";
+    if(id != null){
+        url = url + "?id=" + id;
+    }
+    window.location.href = url;
+}
+
+//删除
+function deleteById(id){
+    parent.layer.confirm('您是确定删除吗？', {
+        btn: ['确定','取消'] //按钮
+    }, function(){
+        var index = parent.layer.load();
+        parent.post("/admin/article/delete/" + id, {}, function(response){
+            parent.layer.close(index);
+            if(response.status == 200){
+                parent.layer.msg('删除成功', {icon: 1});
+            } else {
+                parent.layer.msg('删除失败', {icon: 2});
+            }
+            $('#dataTable').bootstrapTable('refresh');
+        });
+    }, function(){
+    });
+}
+</script>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>获奖详情</title>
+    <link rel="shortcut icon" th:href="@{/favicon.ico}">
+    <link th:href="@{/css/admin/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/css/admin/font-awesome.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/css/admin/animate.css}" rel="stylesheet">
+    <link th:href="@{/css/admin/style.css?v=4.1.0}" rel="stylesheet">
+    <link th:href="@{/css/admin/fileinput.css}" rel="stylesheet">
+    <style>
+        .imgDiv {
+            display: inline-block;
+            position: relative;
+        }
+        .imgDiv .delete {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            width: 50px;
+            height: 50px;
+            display: none;
+        }
+    </style>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>产品详情<small></small></h5>
+                </div>
+                <div class="ibox-content">
+                    <form method="post" th:action="@{'/admin/product/save'}" enctype="multipart/form-data" onsubmit="return submitBefor()" class="form-horizontal">
+                        <input th:if="${id != null}" type="hidden" name="id" th:value="${id}">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">产品名字：</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" id="productName" name="productName" th:value="${productName}" class="form-control" placeholder="请输入产品名字" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">处理器：</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="processor" th:value="${processor}" class="form-control" placeholder="请输入处理器" maxlength="255">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">芯片组：</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="chips" th:value="${chips}" class="form-control" placeholder="请输入芯片组" maxlength="255">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">内存：</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="memory" th:value="${memory}" class="form-control" placeholder="请输入内存" maxlength="255">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">储存功能：</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="storageFunction" th:value="${storageFunction}" class="form-control" placeholder="请输入储存功能" maxlength="255">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">硬盘插槽：</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="hardDiskSlot" th:value="${hardDiskSlot}" class="form-control" placeholder="请输入硬盘插槽" maxlength="255">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">网络：</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="network" th:value="${network}" class="form-control" placeholder="请输入网络" maxlength="255">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">扩展插槽：</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="expansionSlots" th:value="${expansionSlots}" class="form-control" placeholder="请输入扩展插槽" maxlength="255">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">I/O：</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="inputOutput" th:value="${inputOutput}" class="form-control" placeholder="请输入I/O" maxlength="255">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">电源供应：</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="powerSupply" th:value="${powerSupply}" class="form-control" placeholder="请输入电源供应" maxlength="255">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">系统型号：</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="model" th:value="${model}" class="form-control" placeholder="请输入型号" maxlength="255">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">系统支持：</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="operatingSystem" th:value="${operatingSystem}" class="form-control" placeholder="请输入系统支持" maxlength="255">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">整机尺寸：</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="size" th:value="${size}" class="form-control" placeholder="请输入整机尺寸" maxlength="255">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">工作环境：</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="environmentalScience" th:value="${environmentalScience}" class="form-control" placeholder="请输入工作环境" maxlength="255">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">产品类型：</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="types" th:value="${types}" class="form-control" placeholder="请输入产品类型" maxlength="255">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">首页展示：</label>
+                            <div class="col-sm-10">
+                                <select name="showImage" >
+                                    <option value="true">是</option>
+                                    <option value="false">否</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">图片上传：</label>
+                            <div class="col-sm-4">
+                                <div class="panel-body">
+                                    <div class="col-sm-12">
+                                        <input id="img" name="file" multiple type="file"  class="file-loading">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="imgDiv" th:each="image:${imageList}">
+                                <img th:style="'height: 200px;max-width: 200px;'"
+                                     th:src="'/upload/'+ ${image.imageUrl}"/>
+                                <a href="#">
+                                    <img src="/images/admin/login/delete30.png" class="delete"  th:onclick="'javasctript:deleteImage('+${image.id}+')'"/>
+                                </a>
+                            </div>
+                         </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <button type='submit' class="btn btn-primary">保存内容</button>
+                                <button type='button' class="btn btn-white" onclick="back()">返回</button>
+                            </div>
+                        </div>
+                    </form>
+                    <!--<div class="container-fluid">-->
+                        <!--<form id="form" action="#" method="post" enctype="multipart/form-data">-->
+                            <!--<div class="row form-group">-->
+                                <!--<div class="panel panel-primary">-->
+                                    <!--<div class="panel-heading" align="center">-->
+                                        <!--<label style="text-align: center;font-size: 18px;">文 件 上 传</label>-->
+                                    <!--</div>-->
+                                    <!--<div class="panel-body">-->
+                                        <!--<div class="col-sm-12">-->
+                                            <!--<input id="img" name="file" multiple type="file" class="file-loading">-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</form>-->
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<!-- 全局js -->
+<!-- 全局js -->
+<script th:src="@{/js/admin/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{/js/admin/bootstrap.min.js?v=3.3.6}"></script>
+<!-- 自定义js -->
+<script th:src="@{/js/admin/content.js?v=1.0.0}"></script>
+<script type="text/javascript" charset="utf-8" th:src="@{/js/admin/ueditor/ueditor.config.js}"></script>
+<script type="text/javascript" charset="utf-8" th:src="@{/js/admin/fileinput/fileinput.js}"></script>
+<script type="text/javascript" charset="utf-8" th:src="@{/js/admin/fileinput/zh.js}"></script>
+<script type="text/javascript" charset="utf-8" th:src="@{/js/admin/ueditor/ueditor.all.min.js}"> </script>
+<script type="text/javascript" charset="utf-8" th:src="@{/js/admin/ueditor/lang/zh-cn/zh-cn.js}"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    $(document).ready(init);
+    function init() {
+        $(".imgDiv").mouseenter(function () {
+            $(this).find(".delete").show();
+
+        });
+
+        $(".imgDiv").mouseleave(function () {
+            $(this).find(".delete").hide();
+        });
+
+    }
+
+    $(function () {
+        initFileInput("img");
+    })
+    var ue = UE.getEditor('editor');
+    var content = [[${content}]];
+    //设置富文本内容
+    ue.ready(function () {
+        ue.setContent(content, false);
+    });
+    //后退
+    function back(){
+        window.history.back();
+    }
+
+    //提交之前验证
+    function submitBefor(){
+        var title = $("#productName").val();
+        if(title == null || title == ""){
+            parent.layer.msg('请填写产品名字', {icon: 2});
+            return false;
+        }
+        $("#content").val(ue.getContent());
+        return true;
+    }
+    function deleteImage(id) {
+            parent.layer.confirm('您是确定删除吗？', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                var index = parent.layer.load();
+                parent.post("/admin/product/deleteImage/" + id, {}, function(response){
+                    parent.layer.close(index);
+                    if(response.status == 200){
+                        parent.layer.msg('删除成功', {icon: 1});
+                    } else {
+                        parent.layer.msg('删除失败', {icon: 2});
+                    }
+                    location.reload()
+                });
+            }, function(){
+            });
+
+    }
+    function initFileInput(conName) {
+        var imageData = []; //多图上传返回的图片属性接受数组  这里是因为我在做表单其他属性提交的时候使用，在这里我没有将别的input写出来
+        var con = $('#'+conName);
+        con.fileinput({
+            language : 'zh',
+            showUpload: false, //是否显示上传按钮
+            showRemove : true, //显示移除按钮
+            showPreview : true, //是否显示预览
+            showCaption: false,//是否显示标题
+            autoReplace : false,
+            minFileCount: 0,
+            dropZoneEnabled: false,
+            uploadAsync: false,
+            maxFileCount: 10,//最大上传数量
+            browseOnZoneClick: false,
+            // minImageWidth: 50, //图片的最小宽度
+            // minImageHeight: 50,//图片的最小高度
+            // maxImageWidth: 2000,//图片的最大宽度
+            // maxImageHeight: 1000,//图片的最大高度
+            msgFilesTooMany: "选择上传的文件数量 超过允许的最大数值！",
+            enctype: 'multipart/form-data',
+            // overwriteInitial: false,//不覆盖已上传的图片
+            allowedFileExtensions : [ "jpg", "png", "gif" ],
+            browseClass : "btn btn-primary", //按钮样式
+            previewFileIcon : "<i class='glyphicon glyphicon-king'></i>",
+            // previewSettings: {
+            //     image: {width: "240px", height: "240px"},
+            // },
+
+        }).on("fileuploaded", function(e, data) {//文件上传成功的回调函数，还有其他的一些回调函数，比如上传之前...
+            var res = data.response;
+            console.log(res)
+            imageData.push({
+                "path": res.data.path,
+                "date":res.data.date
+            });
+            console.log(imageData);
+        });
+    }
+
+    /*]]>*/
+</script>
+</html>

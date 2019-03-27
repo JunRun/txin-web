@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.txin.admin.mapper.SystemParameterMapper">
+
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="systemParameterEntity">
+        insert into sys_system_parameter(
+        id,
+        `value`,
+        description,
+        seq,
+        type_id,
+        create_name
+
+        )values (
+        #{id},
+        #{value},
+        #{description},
+        #{seq},
+        #{typeId},
+        #{createName}
+
+        )
+    </insert>
+    <update id="update" parameterType="systemParameterEntity">
+        update sys_system_parameter set
+        <if test="value!=null and value!=''">
+            `value`=#{value},
+        </if>
+        <if test="description!=null and description!=''">
+            description=#{description},
+        </if>
+        <if test="seq!=null and seq!=''">
+             seq=#{seq},
+        </if>
+        <if test="typeId!=null and typeId!=''">
+             type_id=#{typeId},
+        </if>
+             update_name=#{updateName}
+        where id=#{id}
+    </update>
+    <select id="getById" parameterType="java.lang.String" resultType="systemParameterEntity">
+        SELECT id,
+        <include refid="selectSql"/>
+        FROM sys_system_parameter
+        WHERE id=#{id}
+    </select>
+
+
+
+    <!-- 根据条件查询 -->
+    <select id="findCountByQuery" resultType="long" parameterType="SystemParameterEntity">
+        SELECT count(*) FROM sys_system_parameter
+        <include refid="whereSql" />
+    </select>
+
+    <select id="findLimitByQuery" parameterType="SystemParameterEntity" resultType="systemParameterEntity">
+        select
+        <include refid="selectSql"/>
+        from
+        sys_system_parameter
+        <include refid="whereSql" />
+        order by create_date desc
+        <if test="offset!=null ">
+            limit ${offset},${limit}
+        </if>
+    </select>
+
+    <select id="findByType" parameterType="java.lang.String" resultType="systemParameterEntity">
+        select
+        <include refid="selectSql"/>
+        from
+        sys_system_parameter
+        where type_id=#{id}
+        ORDER BY seq
+    </select>
+
+
+    <delete id="deleteById" parameterType="String" >
+        delete from sys_system_parameter where id=#{id}
+    </delete>
+
+    <sql id="selectSql">
+        id,
+		`value`,
+		description,
+		seq,
+		type_id,
+		create_name,
+		create_date,
+		update_name,
+		update_date
+	</sql>
+
+    <sql id="whereSql">
+        <where>
+            <if test="id!=null and id!=''">
+                and id=#{id}
+            </if>
+            <if test="value!=null and value!=''">
+                and `value`=#{value}
+            </if>
+            <if test="typeId!=null and typeId!=''">
+                and type_id=#{typeId}
+            </if>
+        </where>
+    </sql>
+</mapper>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>勤诚官网-购买方式</title>
+
+    <!-- Bootstrap -->
+    <link th:href="@{/css/web/bootstrap.min.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/web/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/web/bootstrapt.reset.css}">
+    <link rel="stylesheet" th:href="@{/css/web/swiper.min.css}">
+    <link rel="stylesheet" th:href="@{/css/web/swiper.reset.css}">
+    <link rel="stylesheet" th:href="@{/css/web/header.css}">
+    <link rel="stylesheet" th:href="@{/css/web/footer.css}">
+    <link th:href="@{/css/web/style.css}" rel="stylesheet">
+
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+<header th:replace="web/common/header::header"></header>
+
+<div class="container">
+    <div class="public-crumbs">
+        <div class="public-crumbs-title">
+            <p>购买方式</p>
+        </div>
+        <div class="public-crumbs-place">
+            <p>当前位置：<a th:href="@{/index}">网站首页</a>>购买方式</p>
+        </div>
+    </div>
+    <div class="buy-container">
+        <div class="buy-container-address">
+            <div class="info">
+                <div class="info-header">
+                    <div class="info-company-name">成都勤诚科技有限公司</div>
+                    <div class="info-welcome">欢迎您联系我们进行购买或咨询！</div>
+                </div>
+                <div class="line"></div>
+                <div class="info-phone">
+                    服务热线：<strong>400-028-3911</strong>
+                </div>
+                <div class="info-help-time">周一至周六     9:30-12:00 /  1:30-18:00</div>
+                <div class="info-detail">
+                    <div class="info-detail-main">
+                        <i class="icon icon-phone"></i>
+                        <p>400-028-3911</p>
+                        <p>售前：18980920113</p>
+                        <p>售后：18011414099</p>
+                    </div>
+                    <div class="info-detail-main">
+                        <i class="icon icon-mail"></i>
+                        <p>公司邮箱 ：zb@txin.cc</p>
+                    </div>
+                    <div class="info-detail-main">
+                        <i class="icon icon-address"></i>
+                        <p>四川省成都市武侯区数码科技大厦9楼913</p>
+                    </div>
+                </div>
+            </div>
+            <div class="info map">
+                <img th:src="@{/images/web/ditu.png}" alt="">
+            </div>
+        </div>
+        <div class="buy-container-message">
+            <div class="title">
+                留言
+            </div>
+            <div class="form-user-info">
+                <input type="text" id="name" maxlength="20" placeholder="请输入您的姓名">
+                <input type="text" class="required" checkMobile maxlength="11" id="mobile"  placeholder="请输入您的联系电话">
+                <input type="text" id="qq" maxlength="11" placeholder="请输入您的QQ">
+                <input type="email" id="email"  placeholder="请输入您的邮箱">
+            </div>
+            <div class="form-content">
+                <input type="textarea" id="content" maxlength="300" placeholder="请输入您要留言的详细内容">
+            </div>
+            <div class="yanzhengma">
+                <input type="text" maxlength="4" id="imageCode"  placeholder="请输入验证码">
+                <div style="margin: 0 30px;">
+                    <img id="codeImg" th:src="@{/imageCode}" onclick="imageCodeClick()" >
+                </div>
+                <button class="btn submit btn-default hidden-xs" onclick="save()">提交</button>
+            </div>
+            <button class="btn submit btn-default visible-xs" onclick="save()">提交</button>
+        </div>
+    </div>
+</div>
+<footer th:replace="web/common/footer::footer"></footer>
+
+<script th:src="@{/js/web/swiper.min.js}"></script>
+<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+<script th:src="@{/js/web/jquery.min.js}"></script>
+<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+<script th:src="@{/js/web/bootstrap.min.js}"></script>
+<script th:src="@{/js/admin/layer/layer.js}"></script>
+<script>
+    $(document).ready(function () {
+        var banner = new Swiper ('.swiper-container', {
+            loop: true, // 循环模式选项
+            autoplay: {
+                delay: 5000,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+            },
+        })
+        var documentWidth = $(document).width()
+        var productCenter = new Swiper ('.swiper-container__product-center', {
+            autoplay: {
+                delay: 10000,
+            },
+            observer:true,
+            observeParents:true,
+            slidesPerView : documentWidth > 767 ? 4 : 1,
+            slidesPerGroup: documentWidth > 767 ? 4 : 1,
+            pagination: {
+                el: '.swiper-pagination__product-center',
+            },
+        })
+        window.onresize = function() {
+            documentWidth = $(document).width()
+            productCenter.params.slidesPerView = documentWidth > 767 ? 4 : 1
+            productCenter.params.slidesPerGroup = documentWidth > 767 ? 4 : 1
+        }
+    });
+
+    function save(){
+        //校验参数
+        var name = $("#name").val();
+        var mobile = $("#mobile").val();
+        var content = $("#content").val();
+        var  qq = $("#qq").val();
+        var  email = $("#email").val();
+        var  imageCode = $("#imageCode").val();
+        if(name == null || name == ""){
+            layer.msg('请输入名字', {icon: 2});
+            return;
+        }
+        if(mobile == null || mobile == ""){
+            layer.msg('请输入手机号码', {icon: 2});
+            return;
+        }
+        var re = /^1\d{10}$/
+        if (!re.test(mobile)){
+            layer.msg('手机号码格式错误！', {icon: 2});
+            return;
+        }
+        if (content == null || content == ""){
+            layer.msg('请输入留言信息', {icon: 2});
+            return;
+        }
+        var dh = /^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g
+        if (email==null || email=="") {
+            layer.msg('请输入电子邮箱', {icon: 2});
+        }
+        if (!dh.test(email)){
+            layer.msg('电子邮箱格式错误！',{icon:2});
+            return;
+        }
+        if(imageCode == null || imageCode == ""){
+            layer.msg('请输入验证码', {icon: 2});
+            return;
+        }
+        layer.confirm('您是确定提交吗？', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            var index = layer.load();
+            $.post("/leaveSave",{
+                "name" : name,
+                "mobile" : mobile,
+                "qq" : qq,
+                "email" : email,
+                "content" : content,
+                "imageCode" : imageCode,
+            }, function(response){
+                layer.close(index);
+                if(response.status == 200){
+                    layer.msg(response.message, {icon: 1});
+                    //清空输入框
+                    $("#name").val("");
+                    $("#mobile").val("");
+                    $("#content").val("");
+                    $("#qq").val("");
+                    $("#email").val("");
+                    $("#imageCode").val("");
+                    //重置验证码
+                    imageCodeClick();
+                } else {
+                    layer.msg(response.message, {icon: 2});
+                }
+            },"json");
+        }, function(){
+        });
+    }
+
+    function imageCodeClick(){
+        $("#codeImg").attr("src", "/imageCode?t=" + new Date());
+    }
+</script>
+<script th:src="@{/js/web/public.js}"></script>
+</body>
+
+</html>

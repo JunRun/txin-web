@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.txin.admin.mapper.ProductImageMapper">
+    <insert id="insert" parameterType="cc.txin.admin.model.ProductImageModel">
+        insert into product_image (
+        image_url,
+        product_id,
+        create_date,
+        create_name) values (
+        #{imageUrl},
+        #{productId},
+        #{createDate},
+        #{createName}
+        )
+    </insert>
+    <delete id="deleteById" parameterType="long">
+        delete FROM product_image where id=#{id}
+    </delete>
+
+    <select id="getByProductId" parameterType="long" resultType="cc.txin.admin.model.ProductImageModel">
+        select id,image_url,product_id from product_image where product_id=#{id}
+    </select>
+
+    <delete id="deleteByProductId" parameterType="long">
+        delete FROM product_image where product_id=#{id}
+    </delete>
+</mapper>

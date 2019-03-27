@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.txin.admin.mapper.ArticleMapper">
+
+	<insert id="insert" parameterType="article" useGeneratedKeys="true" keyProperty="id">
+		insert into article (
+			title,
+			source,
+			author,
+			types,
+			image,
+			info,
+			content,
+			seq,
+			create_name
+		) values (
+			#{title},
+			#{source},
+			#{author},
+			#{types},
+			#{image},
+			#{info},
+			#{content},
+			#{seq},
+			#{createName}
+		)
+	</insert>
+
+	<update id="update" parameterType="article">
+		update article set
+		<if test="title!=null and title!=''">
+			title=#{title},
+		</if>
+		<if test="source!=null and source!=''">
+			source=#{source},
+		</if>
+		<if test="author!=null and author!=''">
+			author=#{author},
+		</if>
+		<if test="types!=null and types!=''">
+			types=#{types},
+		</if>
+		<if test="image!=null and image!=''">
+			image=#{image},
+		</if>
+		<if test="info!=null and info!=''">
+			info=#{info},
+		</if>
+		<if test="content!=null and content!=''">
+			content=#{content},
+		</if>
+		<if test="seq!=null and seq!=''">
+			seq=#{seq},
+		</if>
+		update_name=#{updateName}
+		where id=#{id}
+	</update>
+
+	<update id="updateStatus" >
+		update article set
+			status = #{status}
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from article where id=#{id}
+	</delete>
+
+	<select id="getById" resultType="article">
+		select
+		id,
+		title,
+		source,
+		author,
+		types,
+		image,
+		info,
+		content,
+		seq,
+		create_name,
+		create_date,
+		update_name,
+		update_date
+		from article
+		where id=#{id}
+	</select>
+
+	<select id="findCountByQuery" parameterType="article" resultType="long">
+		select count(*) from article
+		<include refid="whereSql"/>
+	</select>
+
+	<select id="findLimitByQuery" parameterType="article" resultType="article">
+		select
+		<include refid="selectSql"/>
+		from article
+		<include refid="whereSql"/>
+		order by
+		<if test="sort!=null and sort!=''">
+			${sort},
+		</if>
+		create_date desc
+		<if test="offset != null">
+			limit ${offset},${limit}
+		</if>
+	</select>
+
+	<select id="findNewsByLimit" resultType="article">
+		select
+		<include refid="selectSql"/>
+		from article
+		where types in ("COMPANY_NEWS", "INDUSTRY_NEWS")
+		order by create_date desc
+		limit ${limit}
+	</select>
+
+	<sql id="selectSql">
+		id,
+		title,
+		source,
+		author,
+		types,
+		image,
+		info,
+		seq,
+		create_name,
+		create_date,
+		update_name,
+		update_date
+	</sql>
+
+	<sql id="whereSql">
+		  <where>
+			  and status != 0
+			  <if test="title != null and title != ''">
+				and title like "%${title}%"
+			  </if>
+			  <if test="source != null and source != ''">
+				and source like "%${source}%"
+			  </if>
+			  <if test="author != null and author != ''">
+				and author like "%${author}%"
+			  </if>
+			  <if test="types != null and types != ''">
+				and types = #{types}
+			  </if>
+			  <if test="info != null and info != ''">
+				  and info like "%${info}%"
+			  </if>
+			  <if test="content != null and content != ''">
+				  and content like "%${content}%"
+			  </if>
+		  </where>
+	</sql>
+</mapper>

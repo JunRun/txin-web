@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>勤诚官网-公司简介</title>
+
+    <!-- Bootstrap -->
+    <link th:href="@{/css/web/bootstrap.min.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/web/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/web/bootstrapt.reset.css}">
+    <link rel="stylesheet" th:href="@{/css/web/swiper.min.css}">
+    <link rel="stylesheet" th:href="@{/css/web/swiper.reset.css}">
+    <link rel="stylesheet" th:href="@{/css/web/header.css}">
+    <link rel="stylesheet" th:href="@{/css/web/footer.css}">
+    <link th:href="@{/css/web/style.css}" rel="stylesheet">
+
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<header th:replace="web/common/header::header"></header>
+<div class="container">
+    <div class="public-crumbs">
+        <div class="public-crumbs-title">
+            <p>公司简介</p>
+        </div>
+        <div class="public-crumbs-place">
+            <p>当前位置：<a th:href="@{/index}">网站首页</a>>支持与服务</p>
+        </div>
+    </div>
+    <div class="about-con">
+        <div class="about-con-item">
+            <div class="about-con-item-box about-con-item-banner">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"
+                         style="background-image: url('/images/web/companyIntroduce1.jpg')">
+                    </div>
+                    <div class="swiper-slide"
+                         style="background-image: url('/images/web/companyIntroduce2.jpg')">
+                    </div>
+                    <div class="swiper-slide"
+                         style="background-image: url('/images/web/companyIntroduce3.jpg')">
+                    </div>
+                    <div class="swiper-slide"
+                         style="background-image: url('/images/web/companyIntroduce4.jpg')">
+                    </div>
+                    <div class="swiper-slide"
+                         style="background-image: url('/images/web/companyIntroduce5.jpg')">
+                    </div>
+                </div>
+                <div class="swiper-button-prev"></div><!--左箭头-->
+                <div class="swiper-button-next"></div><!--右箭头-->
+            </div>
+            <div class="about-con-item-box about-con-item-con">
+                <div class="about-con-item-con-header">
+                   <div class="about-con-item-con-header-box">
+                       <p class="about-con-item-con-header-title">
+                           <strong>公司</strong>简介
+                       </p>
+                       <p class="about-con-item-con-header-subtitle">Company profile</p>
+                   </div>
+                    <i class="about-con-item-con-header-line"></i>
+                </div>
+                <div class="about-con-item-con-main">
+                    <div class="title">以应用为核心，满足行业用户的个性化需求</div>
+                    <div class="article">
+                        成都勤诚科技有限公司成立于2011年，是一家从事服务器研发、生产、定制和销售为一体的企业。公司自成立以来，
+                        凭借优良的产品品质、专业的技术支持和服务保障，获得了广大客户及合作伙伴的一致肯定，成为西南地区优秀的服务器企业。
+                        公司不仅可以按需为客户定制各类服务器及解决方案，更有服务器配件销售安装测试。
+                        秉承“勤于行，诚于心”的企业文化理念，成都勤诚服务于各种行业客户，并树立了良好的口碑。
+                        通过严控供货渠道，保证了产品全部为正品原装产品使客户放心使用的同时，7x24小时的售后支持免除客户的后顾之忧
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="about-con-item">
+            <div class="about-con-item-box about-con-item-con">
+                <div class="about-con-item-con-header">
+                    <div class="about-con-item-con-header-box">
+                        <p class="about-con-item-con-header-title">
+                            <strong>品牌</strong>简介
+                        </p>
+                        <p class="about-con-item-con-header-subtitle">Company profile</p>
+                    </div>
+                    <i class="about-con-item-con-header-line"></i>
+                </div>
+                <div class="about-con-item-con-main">
+                    <div class="title">为客户提供灵活的服务器解决方案</div>
+                    <div class="article">
+                        2016年底，成都勤诚根据自身发展需要，注册天昕品牌服务器，根据应用范围的不同，
+                        天昕服务器产品主要分为：通用服务器，工作站，高性能计算服务器及存储服务器四
+                        大板块。天昕服务器致力于“为客户提供灵活 的服务器解决方案”，在行业定制化，灵
+                        活使用服务器领域，如学院，科研单 位，机关及各类企业相继使用，取得了不错的成果及
+                        好评。
+                    </div>
+                </div>
+            </div>
+            <div class="about-con-item-box">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"
+                         style="background-image: url('/images/web/article-1.jpg')">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="web/common/footer::footer"></footer>
+
+<script th:src="@{/js/web/swiper.min.js}"></script>
+<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+<script th:src="@{/js/web/jquery.min.js}"></script>
+<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+<script th:src="@{/js/web/bootstrap.min.js}"></script>
+<script th:src="@{/js/web/jquery.nicescroll.js}"></script>
+<script>
+    $(document).ready(function () {
+        var banner = new Swiper ('.about-con-item-banner', {
+            loop: true, // 循环模式选项
+            autoplay: {
+                delay: 5000,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        })
+
+        $('.about-con-item-con-main .article').niceScroll({
+            cursorcolor: "#ccc",//#CC0071 光标颜色
+            cursoropacitymax: 1, //改变不透明度非常光标处于活动状态（scrollabar“可见”状态），范围从1到0
+            touchbehavior: false, //使光标拖动滚动像在台式电脑触摸设备
+            cursorwidth: "5px", //像素光标的宽度
+            cursorborder: "0", // 游标边框css定义
+            cursorborderradius: "5px",//以像素为光标边界半径
+            autohidemode: false //是否隐藏滚动条
+        });
+    })
+</script>
+<script th:src="@{/js/web/public.js}"></script>
+</body>
+</html>

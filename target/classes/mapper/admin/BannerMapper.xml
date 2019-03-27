@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.txin.admin.mapper.BannerMapper">
+
+
+    <insert id="insert" parameterType="banner" useGeneratedKeys="true" keyProperty="id">
+        insert into banner(
+        title,
+        image_url,
+        url,
+        exhibition,
+        seq,
+        create_date,
+        create_name
+       ) values (
+        #{title},
+        #{imageUrl},
+        #{url},
+        #{exhibition},
+        #{seq},
+        #{createDate},
+        #{createName}
+      )
+    </insert>
+    <update id="update" parameterType="banner">
+        update banner set
+        <if test="title!=null and title!=''">
+            title=#{title},
+        </if>
+        <if test="imageUrl!=null and imageUrl!=''">
+            image_url=#{imageUrl},
+        </if>
+        <if test="url!=null and url!=''">
+            url=#{url},
+        </if>
+        <if test="seq!=null and seq!=''">
+            seq=#{seq},
+        </if>
+        <if test="exhibition!=null">
+            exhibition=#{exhibition},
+        </if>
+        <if test="updateDate!=null and updateDate!=''">
+            update_date=#{updateDate},
+        </if>
+            update_name=#{updateName}
+        where id=#{id}
+    </update>
+
+    <delete id="deleteById" parameterType="Long">
+		delete from banner where id=#{id}
+	</delete>
+    <select id="getById" parameterType="Long" resultType="banner">
+      select
+      <include refid="selectSql"/>
+        FROM banner
+        where id=#{id}
+    </select>
+    <select id="findCountByQuery" parameterType="banner" resultType="long">
+        select count(*) from banner
+        <include refid="whereSql"/>
+    </select>
+    <select id="findLimitByQuery" parameterType="banner" resultType="banner">
+        select
+        <include refid="selectSql"/>
+        from banner
+        <include refid="whereSql"/>
+        order by create_date desc
+        <if test="offset != null">
+            limit ${offset},${limit}
+        </if>
+    </select>
+    <sql id="whereSql">
+        <where>
+            <if test="title!=null and title!=''">
+                and title like concat("%",#{title},"%")
+            </if>
+            <if test="imageUrl!=null and imageUrl!=''">
+               and image_url like concat ("%",#{imageUrl},"%")
+            </if>
+            <if test="url!=null and url!=''">
+                and url like concat("%",#{url},"%")
+            </if>
+            <if test="exhibition!=null and exhibition!=''">
+               and exhibition=#{exhibition}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="selectSql">
+		id,
+		title,
+		url,
+		image_url,
+		title,
+        exhibition,
+		seq,
+		create_name,
+		create_date,
+		update_name,
+		update_date
+	</sql>
+</mapper>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>获奖详情</title>
+    <link rel="shortcut icon" th:href="@{/favicon.ico}">
+    <link th:href="@{/css/admin/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/css/admin/font-awesome.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/css/admin/animate.css}" rel="stylesheet">
+    <link th:href="@{/css/admin/style.css?v=4.1.0}" rel="stylesheet">
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>用户管理<small></small></h5>
+                </div>
+                <div class="ibox-content">
+                    <form method="post" th:action="@{'/admin/user/save'}" enctype="multipart/form-data" onsubmit="return submitBefor()" class="form-horizontal">
+                        <input th:if="${id != null}" type="hidden" name="id" th:value="${id}">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">账号名称：</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" id="username" name="username" th:value="${username}" class="form-control" placeholder="请输入名称" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div  class="form-group">
+                            <label class="col-sm-2 control-label">密码：</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" id="password" name="password" th:value="${password}" class="form-control" placeholder="请输入密码" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">真实姓名：</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" id="realname" name="realname" th:value="${realname}" class="form-control" placeholder="请输入真实姓名" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">联系方式：</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" id="mobile" name="mobile" th:value="${mobile}" class="form-control" placeholder="请输入联系方式" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">email：</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="email" th:value="${email}" class="form-control" placeholder="请输入电子邮箱" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <button type='submit' class="btn btn-primary" >保存内容</button>
+                                <button type='button' class="btn btn-white" onclick="back()">返回</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<!-- 全局js -->
+<!-- 全局js -->
+<script th:src="@{/js/admin/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{/js/admin/bootstrap.min.js?v=3.3.6}"></script>
+<!-- 自定义js -->
+<script th:src="@{/js/admin/content.js?v=1.0.0}"></script>
+<script type="text/javascript" charset="utf-8" th:src="@{/js/admin/ueditor/ueditor.config.js}"></script>
+<script type="text/javascript" charset="utf-8" th:src="@{/js/admin/ueditor/ueditor.all.min.js}"> </script>
+<script type="text/javascript" charset="utf-8" th:src="@{/js/admin/ueditor/lang/zh-cn/zh-cn.js}"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var ue = UE.getEditor('editor');
+    var content = [[${content}]];
+    //设置富文本内容
+    ue.ready(function () {
+        ue.setContent(content, false);
+    });
+    //后退
+    function back(){
+        window.history.back();
+    }
+
+    //提交之前验证
+    function submitBefor(){
+        var username = $("#username").val();
+        if(username == null || username == ""){
+            parent.layer.msg('请填写用户名称', {icon: 2});
+            return false;
+        }
+        if(password == null || password == ""){
+            parent.layer.msg('请填写用户密码', {icon: 2});
+            return false;
+        }
+         // $("#content").val(ue.getContent());
+        return true;
+    }
+                                    /*]]>*/
+</script>
+</html>

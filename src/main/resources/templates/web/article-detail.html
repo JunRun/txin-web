@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>勤诚官网-文章详情</title>
+
+    <!-- Bootstrap -->
+    <link th:href="@{/css/web/bootstrap.min.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/web/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/web/bootstrapt.reset.css}">
+    <link rel="stylesheet" th:href="@{/css/web/swiper.min.css}">
+    <link rel="stylesheet" th:href="@{/css/web/swiper.reset.css}">
+    <link rel="stylesheet" th:href="@{/css/web/header.css}">
+    <link rel="stylesheet" th:href="@{/css/web/footer.css}">
+    <link th:href="@{/css/web/style.css}" rel="stylesheet">
+
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+<header th:replace="web/common/header::header"></header>
+<div class="container">
+    <div class="public-crumbs">
+        <div class="public-crumbs-title">
+            <p th:if="${types=='COMPANY_NEWS'}">公司新闻</p>
+            <p th:if="${types=='INDUSTRY_NEWS'}">行业新闻</p>
+            <p th:if="${types=='SOLUTION'}">解决方案</p>
+            <p th:if="${types=='AFTER_SALES_PROBLEM'}">售后问题</p>
+            <p th:if="${types=='USE_PROBLEM'}">使用问题</p>
+            <p th:if="${types=='BUY_PROBLEM'}">购买问题</p>
+        </div>
+        <div class="public-crumbs-place">
+            <p>
+                当前位置：
+                <a th:href="@{/index}">网站首页</a>
+                >文章详情
+            </p>
+        </div>
+    </div>
+    <div class="article-detail">
+        <div class="article-detail-con">
+            <div class="title" th:text="${title}"></div>
+            <div class="info">
+                <div class="info-item origin">
+                    <strong>新闻来源:</strong>
+                    <span th:text="${source}"></span>
+                </div>
+                <div class="info-item date">
+                    <strong>发布日期:</strong>
+                    <span th:text="${#dates.format(createDate, 'yyyy-MM-dd')}"></span>
+                </div>
+                <div class="info-item share">
+                <!--<strong>分享到：</strong>-->
+                <!-- Baidu Button BEGIN -->
+                <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+                    <a class="bds_qzone"></a>
+                    <a class="bds_tsina"></a>
+                    <a class="bds_tqq"></a>
+                    <a class="bds_renren"></a>
+                    <a class="bds_t163"></a>
+                    <span class="bds_more">更多</span>
+                    <a class="shareCount"></a>
+                </div>
+
+                </div>
+            </div>
+            <div class="article-detail-text" th:utext="${content}">
+            </div>
+            <!--<div class="article-detail-pagination">
+                <a href="">上一篇：定制化助力数字化，美国NAB展Gooxi高性能Purley平台服务器大展风采</a>
+                <a href="">下一篇：定制化助力数字化，美国NAB展Gooxi高性能Purley平台服务器大展风采</a>
+            </div>-->
+        </div>
+        <div class="article-detail-news">
+            <div class="article-list">
+                <div class="article-list-header">
+                    <img th:src="@{/images/web/news.png}" alt="" class="icon">
+                    <p class="name">热门新闻</p>
+                </div>
+                <div class="article-list-con">
+                    <a th:each="article,iterStat : ${articleList}" class="title new-title "
+                       th:href="${'/article/' + article.id}" th:text="${article.title}"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="web/common/footer::footer" ></footer>
+
+<script th:src="@{/js/web/swiper.min.js}"></script>
+<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+<script th:src="@{/js/web/jquery.min.js}"></script>
+<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+<script th:src="@{/js/web/bootstrap.min.js}"></script>
+<script th:src="@{/js/web/public.js}"></script>
+
+<script type="text/javascript" id="bdshare_js" data="type=tools&uid=6478904" ></script>
+<script type="text/javascript" id="bdshell_js"></script>
+<script type="text/javascript">
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+</script>
+
+</body>
+
+
+
+
+
+</html>

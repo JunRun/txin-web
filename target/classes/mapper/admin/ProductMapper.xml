@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.txin.admin.mapper.ProductMapper">
+    <resultMap id="productMap" type="product">
+        <id column="id" property="id"/>
+        <result property="model" column="model"/>
+        <result property="productName" column="product_name"/>
+        <result property="processor" column="processor"/>
+        <result property="chips" column="chips"/>
+        <result property="memory" column="memory"/>
+        <result property="storageFunction" column="storage_function"/>
+        <result property="hardDiskSlot" column="hard_disk_slot"/>
+        <result property="network" column="network"/>
+        <result property="expansionSlots" column="expansion_slots"/>
+        <result property="inputOutput" column="input_output"/>
+        <result property="powerSupply" column="power_supply"/>
+        <result property="operatingSystem" column="operating_system"/>
+        <result property="size" column="size"/>
+        <result property="types" column="types"/>
+        <result property="showImage" column="show_image"/>
+        <result property="environmentalScience" column="environmental_science"/>
+        <result property="createName" column="create_name"/>
+        <collection property="imageModelList" ofType="cc.txin.admin.model.ProductImageModel">
+            <id property="id" column="i_id" javaType="Long"/>
+            <result property="imageUrl" column="i_image_url" javaType="string"/>
+            <result property="productId" column="i_product_id" javaType="Long"/>
+        </collection>
+       
+    </resultMap>
+    <insert id="insert" parameterType="product" keyProperty="id" useGeneratedKeys="true">
+        insert into product(
+            product_name,
+            model,
+            processor,
+            chips,
+            memory,
+            storage_function,
+            hard_disk_slot,
+            network,
+            expansion_slots,
+            input_output,
+            power_supply,
+            operating_system,
+            `size`,
+            types,
+            environmental_science,
+            show_image,
+            create_name
+        )values (
+            #{productName},
+            #{model},
+            #{processor},
+            #{chips},
+            #{memory},
+            #{storageFunction},
+            #{hardDiskSlot},
+            #{network},
+            #{expansionSlots},
+            #{inputOutput},
+            #{powerSupply},
+            #{operatingSystem},
+            #{size},
+            #{types},
+            #{environmentalScience},
+            #{showImage},
+            #{createName}
+        )
+    </insert>
+    <select id="findByParameter"  resultMap="productMap">
+      select distinct
+      <include refid="selectSql"/>
+        from product p
+        left join product_image i on p.id=i.product_id
+      <where>
+          <if test="type!=null">
+              p.types  like  concat("%",#{type},"%")
+          </if>
+          <if test="chips!=null ">
+             <foreach collection="chips" item="chipsId"  open="and (" close=")" separator="or">
+                p.chips  like  concat("%",#{chipsId},"%")
+              </foreach>
+          </if>
+          <if test="sever!=null " >
+              <foreach collection="sever" item="serverValue"  open="and (" close=")" separator="or">
+                 p.size like concat ("%",#{serverValue},"%")
+              </foreach>
+          </if>
+          <if test="processorNumber!=null ">
+              <foreach collection="processorNumber" item="value" open="and (" close=")" separator="or ">
+                  p.processor  like concat ("%",#{value},"%")
+              </foreach>
+          </if>
+          <if test="size!=null ">
+              <foreach collection="size" item="sizeValue" open="and (" close=")" separator="or">
+                  p.size like concat("%",#{sizeValue},"%")
+              </foreach>
+          </if>
+          <if test="processor!=null ">
+              <foreach collection="processor" item="value" open="and (" close=")" separator="or ">
+                  p.processor  like concat ("%",#{value},"%")
+              </foreach>
+          </if>
+      </where>
+
+    </select>
+    <update id="update" parameterType="product">
+        update product SET
+        <if test="productName!=null and productName!=''">
+            product_name=#{productName},
+        </if>
+        <if test="model!=null and model!=''">
+            model=#{model},
+        </if>
+        <if test="processor!=null and processor!=''">
+            processor=#{processor},
+        </if>
+        <if test="chips!=null and chips!=''">
+            chips=#{chips},
+        </if>
+        <if test="memory!=null and chips!=''">
+            memory=#{memory},
+        </if>
+        <if test="storageFunction!=null and storageFunction!=''">
+            storage_function=#{storageFunction},
+        </if>
+        <if test="hardDiskSlot!=null and hardDiskSlot!=''">
+            hard_disk_slot=#{hardDiskSlot},
+        </if>
+        <if test="network!=null and network!=''">
+            network=#{network},
+        </if>
+        <if test="expansionSlots!=null and expansionSlots!=''">
+            expansion_slots=#{expansionSlots},
+        </if>
+        <if test="inputOutput!=null and inputOutput!=''">
+            input_output=#{inputOutput},
+        </if>
+        <if test="powerSupply!=null and powerSupply!=''">
+            power_supply=#{powerSupply},
+        </if>
+        <if test="operatingSystem!=null and operatingSystem!=''">
+            operating_system=#{operatingSystem},
+        </if>
+        <if test="size!=null and size!=''">
+            size=#{size},
+        </if>
+        <if test="types!=null and types!=''">
+            types=#{types},
+        </if>
+        <if test="showImage!=null ">
+            show_image=#{showImage},
+        </if>
+        <if test="environmentalScience!=null and environmentalScience!=''">
+            environmental_science=#{environmentalScience},
+        </if>
+        update_name=#{updateName}
+        where id=#{id}
+    </update>
+    <select id="findLimitByQuery" parameterType="product" resultMap="productMap">
+        select p.*
+        from product p
+        <include refid="whereSql"/>
+        order by p.create_date desc
+        <if test="offset!=null">
+            limit ${offset},${limit}
+        </if>
+    </select>
+    <select id="findCountByQuery" resultType="long" parameterType="product">
+        select COUNT(*) from product
+        <include refid="whereSql"></include>
+    </select>
+    <delete id="deleteById" parameterType="Long">
+        delete from product where id=#{id}
+    </delete>
+    
+
+    <select id="getById" parameterType="Long" resultMap="productMap">
+      select
+      <include refid="selectSql"/>
+        from product p LEFT JOIN product_image i on p.id=i.product_id
+        WHERE p.id=#{id}
+    </select>
+
+
+    <sql id="selectSql">
+    p.id,
+    p.product_name,
+    p.model,
+    p.processor,
+    p.chips,
+    p.memory,
+    p.storage_function,
+    p.hard_disk_slot,
+    p.network,
+    p.expansion_slots,
+    p.input_output,
+    p.power_supply,
+    p.operating_system,
+    p.`size`,
+    p.environmental_science,
+    p.show_image,
+    p.create_date,
+    p.create_name,
+    p.update_name,
+    p.update_date,
+    i.id as i_id,
+    i.image_url as i_image_url,
+    i.product_id as i_product_id
+    </sql>
+    <sql id="productImage">
+
+    </sql>
+    <sql id="whereSql">
+          <where>
+            <if test="productName!=null and productName!='' ">
+                and p.product_name like concat("%",#{productName},"%")
+            </if>
+            <if test="types!=null and types!=''">
+                and p.types=#{types}
+            </if>
+            <if test="showImage!=null ">
+                and p.show_image=#{showImage}
+            </if>
+            <if test="size!=null and size!=''">
+                and p.size like concat("%",#{size},"%")
+            </if>
+            <if test="processor!=null and processor!=''">
+                and p.processor like concat("%",#{processor},"%")
+            </if>
+            <if test="memory!=null and memory!=''">
+                and p.memory like concat("%",#{memory},"%")
+            </if>
+          </where>
+    </sql>
+</mapper>
